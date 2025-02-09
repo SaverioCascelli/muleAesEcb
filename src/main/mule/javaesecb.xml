@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:java="http://www.mulesoft.org/schema/mule/java" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
+	<flow name="javaesecbFlow" doc:id="3c4f3014-e57e-4b3b-b471-377b3221ddd3" >
+		<scheduler doc:name="Scheduler" doc:id="63e19c25-74f2-447d-aa53-03d2673e1203" >
+			<scheduling-strategy >
+				<fixed-frequency />
+			</scheduling-strategy>
+		</scheduler>
+		<java:new doc:name="New" doc:id="80efcb45-dda1-4915-9752-a429f58b42ad" class="javaesecb.AES_ECB" constructor='AES_ECB(String)'>
+			<java:args ><![CDATA[#[{
+	secretKeyParam: "testatamostruosa"
+}]]]></java:args>
+		</java:new>
+		<java:invoke doc:name="Invoke" doc:id="ce16ee6b-e920-49c7-bf75-be2b67a2f83a" instance="#[payload]" class="javaesecb.AES_ECB" method="encrypt(String)">
+			<java:args ><![CDATA[#[{
+	valueToEncrypt: "prova"
+}]]]></java:args>
+		</java:invoke>
+		<logger level="INFO" doc:name="Logger" doc:id="bca872de-436a-4845-88b1-93b58f47d9e3" message="#[payload]"/>
+	</flow>
+</mule>
